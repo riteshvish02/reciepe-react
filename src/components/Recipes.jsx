@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "./Card";
 import { Link, useLocation } from "react-router-dom";
+import {Receipecontext} from "../contexts/RecepieContext";
 
 const Recipes = () => {
     const { pathname } = useLocation();
-    return (
+   const  [receipe,setreceipe] =  useContext(Receipecontext)
+    // console.log(receipe);
+    return receipe.length > 0 ? (
         <div className=" ">
             <h1 className="text-center text-2xl font-semibold">OUR RECIPES</h1>
             <p className="text-center text-zinc-400">
@@ -12,11 +15,11 @@ const Recipes = () => {
                 aperiam?
             </p>
             <div className="recipe-cards mt-[5%]  flex flex-wrap p-5">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+               {
+                    receipe.map((dish,i)=>(
+                        <Card index={i} key={i} dish={dish} />
+                    ))
+               }
             </div>
             {pathname === "/recipes" && (
                 <Link
@@ -28,7 +31,7 @@ const Recipes = () => {
                 </Link>
             )}
         </div>
-    );
+    ) : <h2 className="text-center text-2xl font-semibold text-green-500">No recipe</h2>
 };
 
 export default Recipes;

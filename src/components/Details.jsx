@@ -1,15 +1,22 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Receipecontext } from "../contexts/RecepieContext";
 
 const Details = () => {
-    const dish = {
-        image: "https://www.pngall.com/wp-content/uploads/8/Cooking-Recipe-PNG-Clipart.png",
-        title: "Stracciatella (Italian Wedding Soup)",
-        ingredients: `3 1/2 c Chicken broth; homemade,1 lb Fresh spinach; wash/trim/chop,1 Egg,1 c Grated parmesan cheese; --or--,1 c Romano cheese; freshly grated,Salt and pepper; to taste`,
-        description:
-            "The recipe originated in Rome hundreds and hundreds of years ago, and is said to have been created when families had loads of leftover broth on Christmas from cooking their meat.",
-        instructions: `Bring 1 cup of the broth to a boil. Add spinach and cook until softened but still bright green. Remove spinach with a slotted spoon and set aside. Add remaining broth to pot. Bring to a boil. Meanwhile, beat egg lightly with a fork. Beat in 1/4 cup of cheese. When broth boils pour in egg mixture, stirring constantly for a few seconds until it cooks into "rags." Add reserved spinach, salt and pepper. Serve immediately, passing remaining cheese. NOTES: Someone asked for this recipe a while back. I believe this soup, known as "Stracciatella" is synonymous with Italian Wedding Soup, however, I seem to remember from I-don't-know-where that Italian Wedding Soup is the same as this but with the addition of tiny meatballs.`,
-    };
-    return (
+    const params = useParams()
+    const navigate = useNavigate()
+    // console.log(params);
+    const [receipe,setreceipe] = useContext(Receipecontext)
+    const dish = receipe.find((ind,i)=> i == params.id)
+    const DeleteHandler = ()=>{
+        setreceipe(receipe.filter((ind,i)=> i != params.id))
+        localStorage.setItem('receipe',JSON.stringify(receipe.filter((ind,i)=> i!= params.id)))
+        navigate(-1)
+    }
+    // console.log(dish);
+    // receipe.find(receipe == params.id)
+   
+    return dish && (
         <div className="w-[80%] m-auto p-5">
             <Link to="/recipes" class="text-3xl ri-arrow-left-line"></Link>
             <div className="details w-full flex h-[75vh] mt-3">
@@ -26,7 +33,7 @@ const Details = () => {
                         >
                             Update
                         </Link>
-                        <Link className="text-red-400 border-red-400 border py-2 px-5">
+                        <Link onClick={DeleteHandler} className="text-red-400 border-red-400 border py-2 px-5">
                             Delete
                         </Link>
                     </div>
@@ -55,7 +62,7 @@ const Details = () => {
                 </div>
             </div>
         </div>
-    );
+    )
 };
 
 export default Details;
