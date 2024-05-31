@@ -2,8 +2,11 @@ import { nanoid } from "nanoid";
 import React, { useContext, useState } from "react";
 import { Receipecontext } from "../contexts/RecepieContext";
 import { useNavigate } from "react-router-dom";
+import { asyncAddRecipe } from "../store/actions/recipeaction";
+import { useDispatch } from "react-redux";
 const Create = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
    const  [receipe,setreceipe] =  useContext(Receipecontext)
     const [image,setimage] = useState('')
     const [title,settitle] =  useState('')
@@ -21,7 +24,8 @@ const Create = () => {
             ingredients:ingredients,
             instructions:instructions,
         }
-      setreceipe([...receipe,newreceipe]) 
+    //   setreceipe([...receipe,newreceipe]) 
+      dispatch(asyncAddRecipe([...receipe,newreceipe]))
       localStorage.setItem('receipe',JSON.stringify([...receipe,newreceipe])) 
       navigate('/') 
     }

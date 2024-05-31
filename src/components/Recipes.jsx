@@ -7,7 +7,7 @@ const Recipes = () => {
     const { pathname } = useLocation();
    const  [receipe,setreceipe] =  useContext(Receipecontext)
     // console.log(receipe);
-    return receipe.length > 0 ? (
+    return  (
         <div className=" ">
             <h1 className="text-center text-2xl font-semibold">OUR RECIPES</h1>
             <p className="text-center text-zinc-400">
@@ -31,7 +31,7 @@ const Recipes = () => {
                 </Link>
             )}
         </div>
-    ) : <h2 className="text-center text-2xl font-semibold text-green-500">No recipe</h2>
+    ) 
 };
 
 export default Recipes;
